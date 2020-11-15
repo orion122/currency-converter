@@ -1,0 +1,15 @@
+type Currency {
+    id: ID!
+    name: String!
+    numCode: String!
+    charCode: String!
+    nominal: Int!
+    updateDate: String! # fixme: type?
+    rate: BigDecimal!
+}
+
+type Query {
+    currencies:[Currency]
+    currency(id: ID!):Currency
+    convert(fromId: ID!, toId: ID!, sum: BigDecimal!):BigDecimal!
+}
