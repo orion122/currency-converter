@@ -15,14 +15,12 @@ import java.util.Optional;
 public class CurrencyService {
 
     private final CurrencyRepository currencyRepository;
-    private final Converter converter;
+    private final CurrencyConversionService conversionService;
 
-    @Transactional
     public List<Currency> getCurrencies() {
         return currencyRepository.findAll();
     }
 
-    @Transactional
     public Optional<Currency> getCurrency(String id) {
         return currencyRepository.findById(id);
     }
@@ -32,6 +30,6 @@ public class CurrencyService {
         Currency fromCurrency = currencyRepository.getOne(fromCurrencyId); // fixme: findById with exception
         Currency toCurrency = currencyRepository.getOne(toCurrencyId); // fixme: findById with exception
 
-        return converter.convert(fromCurrency, toCurrency, sum);
+        return conversionService.convert(fromCurrency, toCurrency, sum);
     }
 }
