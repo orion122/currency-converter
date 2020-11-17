@@ -21,7 +21,7 @@ public class CurrencyConversionService {
         return sum.multiply(ratesRatio);
     }
 
-    public BigDecimal calculateRatesRatio(Currency fromCurrency, Currency toCurrency) {
+    private BigDecimal calculateRatesRatio(Currency fromCurrency, Currency toCurrency) {
         BigDecimal fromRate = fromCurrency.getRate().divide(new BigDecimal(fromCurrency.getNominal()), SCALE, ROUNDING_MODE);
         BigDecimal toRate = toCurrency.getRate().divide(new BigDecimal(toCurrency.getNominal()), SCALE, ROUNDING_MODE);
 
