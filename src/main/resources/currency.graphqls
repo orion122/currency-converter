@@ -8,8 +8,16 @@ type Currency {
     rate: BigDecimal!
 }
 
+type ConversionStatistic {
+    fromCurrency: Currency!
+    toCurrency: Currency!
+    averageRate: Float!
+    sum: BigDecimal!
+}
+
 type Query {
     currencies:[Currency]
     currency(id: ID!):Currency
     convert(fromId: ID!, toId: ID!, sum: BigDecimal!):BigDecimal!
+    conversionStatistics:[ConversionStatistic]
 }

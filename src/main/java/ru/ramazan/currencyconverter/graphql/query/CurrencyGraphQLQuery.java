@@ -4,6 +4,8 @@ import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.ramazan.currencyconverter.data.entity.Currency;
+import ru.ramazan.currencyconverter.data.model.ConversionStatistic;
+import ru.ramazan.currencyconverter.service.ConversionHistoryService;
 import ru.ramazan.currencyconverter.service.CurrencyService;
 
 import java.math.BigDecimal;
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class CurrencyGraphQLQuery implements GraphQLQueryResolver {
 
     private final CurrencyService currencyService;
+    private final ConversionHistoryService conversionHistoryService;
 
     public List<Currency> getCurrencies() {
         return currencyService.getCurrencies();
@@ -26,5 +29,10 @@ public class CurrencyGraphQLQuery implements GraphQLQueryResolver {
 
     public BigDecimal convert(String fromCurrencyId, String toCurrencyId, BigDecimal sum) {
         return currencyService.convert(fromCurrencyId, toCurrencyId, sum);
+    }
+
+    public List<ConversionStatistic> getConversionStatistics() {
+        return conversionHistoryService.getAverageConversionRate();
+
     }
 }
