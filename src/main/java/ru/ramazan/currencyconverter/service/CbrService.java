@@ -11,7 +11,7 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.ramazan.currencyconverter.data.model.cbr.CbrExchangeRates;
-import ru.ramazan.currencyconverter.exception.CbrRequestException;
+import ru.ramazan.currencyconverter.graphql.exception.CbrRequestException;
 
 import java.io.IOException;
 
@@ -36,9 +36,8 @@ public class CbrService {
             return MAPPER.readValue(xml, CbrExchangeRates.class);
 
         } catch (IOException e) {
-            // fixme: дублируются строки
             log.error("Невозможно получить данные с сайта ЦБ", e);
-             throw new CbrRequestException("Невозможно получить данные с сайта ЦБ");
+             throw new CbrRequestException();
         }
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.ramazan.currencyconverter.data.entity.Currency;
 import ru.ramazan.currencyconverter.data.model.cbr.CbrCurrency;
 import ru.ramazan.currencyconverter.data.model.cbr.CbrExchangeRates;
+import ru.ramazan.currencyconverter.graphql.exception.CurrencyNotFoundException;
 import ru.ramazan.currencyconverter.repository.CurrencyRepository;
 
 import java.math.BigDecimal;
@@ -33,8 +34,11 @@ public class CurrencyService {
 
     @Transactional
     public BigDecimal convert(String fromCurrencyId, String toCurrencyId, BigDecimal sum) {
-        Currency fromCurrency = currencyRepository.getOne(fromCurrencyId);
-        Currency toCurrency = currencyRepository.getOne(toCurrencyId);
+        Currency fromCurrency = currencyRepository.findById(fromCurrencyId)
+                .orElseThrow(() -> new CurrencyNotFoundException("Не найдена валюта с таким id", "fromCurrencyId"));
+
+        Currency toCurrency = currencyRepository.findById(toCurrencyId)
+                .orElseThrow(() -> new CurrencyNotFoundException("Не найдена валюта с таким id", "toCurrencyId"));
 
         LocalDate today = LocalDate.now();
 
