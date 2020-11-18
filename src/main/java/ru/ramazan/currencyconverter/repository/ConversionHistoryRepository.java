@@ -17,5 +17,5 @@ public interface ConversionHistoryRepository extends JpaRepository<ConversionHis
             "FROM ConversionHistory ch " +
             "WHERE ch.date >= :sevenDaysAgo " +
             "GROUP BY ch.fromCurrency, ch.toCurrency")
-    List<ConversionStatistic> getConversionStatistic(LocalDate sevenDaysAgo);
+    List<ConversionStatistic> getConversionStatistics(LocalDate sevenDaysAgo);
 }

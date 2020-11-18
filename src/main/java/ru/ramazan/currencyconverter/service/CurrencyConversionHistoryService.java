@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ConversionHistoryService {
+public class CurrencyConversionHistoryService {
 
     private final ConversionHistoryRepository conversionHistoryRepository;
 
@@ -27,7 +27,7 @@ public class ConversionHistoryService {
         conversionHistoryRepository.save(conversionHistory);
     }
 
-    public List<ConversionStatistic> getAverageConversionRate() {
-        return conversionHistoryRepository.getConversionStatistic(LocalDate.now().minusDays(7));
+    public List<ConversionStatistic> getConversionStatistics() {
+        return conversionHistoryRepository.getConversionStatistics(LocalDate.now().minusDays(7));
     }
 }

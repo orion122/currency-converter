@@ -13,11 +13,11 @@ public class CurrencyConversionService {
 
     private static final int SCALE = 4;
     private static final RoundingMode ROUNDING_MODE = RoundingMode.HALF_UP;
-    private final ConversionHistoryService conversionHistoryService;
+    private final CurrencyConversionHistoryService currencyConversionHistoryService;
 
     public BigDecimal convert(Currency fromCurrency, Currency toCurrency, BigDecimal sum) {
         BigDecimal ratesRatio = calculateRatesRatio(fromCurrency, toCurrency);
-        conversionHistoryService.saveConversion(fromCurrency, toCurrency, sum, ratesRatio);
+        currencyConversionHistoryService.saveConversion(fromCurrency, toCurrency, sum, ratesRatio);
         return sum.multiply(ratesRatio);
     }
 

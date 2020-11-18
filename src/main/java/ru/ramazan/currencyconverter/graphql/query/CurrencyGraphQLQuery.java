@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.ramazan.currencyconverter.data.entity.Currency;
 import ru.ramazan.currencyconverter.data.model.ConversionStatistic;
-import ru.ramazan.currencyconverter.service.ConversionHistoryService;
+import ru.ramazan.currencyconverter.service.CurrencyConversionHistoryService;
 import ru.ramazan.currencyconverter.service.CurrencyService;
 
 import java.math.BigDecimal;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class CurrencyGraphQLQuery implements GraphQLQueryResolver {
 
     private final CurrencyService currencyService;
-    private final ConversionHistoryService conversionHistoryService;
+    private final CurrencyConversionHistoryService currencyConversionHistoryService;
 
     public List<Currency> getCurrencies() {
         return currencyService.getCurrencies();
@@ -32,7 +32,6 @@ public class CurrencyGraphQLQuery implements GraphQLQueryResolver {
     }
 
     public List<ConversionStatistic> getConversionStatistics() {
-        return conversionHistoryService.getAverageConversionRate();
-
+        return currencyConversionHistoryService.getConversionStatistics();
     }
 }
