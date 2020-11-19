@@ -39,6 +39,7 @@ public class CbrService {
 
             HttpEntity entity = response.getEntity();
             String xml = EntityUtils.toString(entity);
+            log.info("Получены данные с сайта ЦБ");
             return MAPPER.readValue(xml, CbrExchangeRates.class);
 
         } catch (IOException e) {

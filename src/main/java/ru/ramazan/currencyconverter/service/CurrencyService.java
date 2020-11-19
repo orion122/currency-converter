@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CurrencyService {
@@ -33,6 +34,13 @@ public class CurrencyService {
         return currencyRepository.findById(id);
     }
 
+    /**
+     * Конвертирует из одной валюты в другую
+     * @param fromCurrencyId - id конвертируемой валюты
+     * @param toCurrencyId - id валюты, в которую происходит конвертация
+     * @param sum - количество переводимых средств
+     * @return - результат конвертации (количество переводенных средств)
+     */
     @Transactional
     public BigDecimal convert(String fromCurrencyId, String toCurrencyId, BigDecimal sum) {
         Currency fromCurrency = getCurrencyOrThrow(fromCurrencyId, "fromCurrencyId");
@@ -60,6 +68,7 @@ public class CurrencyService {
      */
     public void updateOrCreateCurrencies() {
         CbrExchangeRates cbrExchangeRates = cbrService.getExchangeRates();
+        log.info("Данные с сайта ЦБ распарсены");
 
         LocalDate exchangeRatesDate = cbrExchangeRates.getDate();
 
@@ -68,6 +77,7 @@ public class CurrencyService {
                 .collect(toList());
 
         currencyRepository.saveAll(currencies);
+        log.info("Курсы валют сохранены в БД");
     }
 
     private Currency buildCurrency(CbrCurrency cbrCurrency, LocalDate exchangeRatesDate) {
