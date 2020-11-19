@@ -14,19 +14,25 @@ import ru.ramazan.currencyconverter.data.model.cbr.CbrExchangeRates;
 import ru.ramazan.currencyconverter.graphql.exception.CbrRequestException;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class CbrService {
 
-    @Value("${cbrf_url}")
-    private String url;
+    public static final String DATE_PATTERN = "dd/MM/yyyy";
+
+    @Value("${cbrf_url_template}")
+    private String cbrfUrlTemplate;
 
     private final CloseableHttpClient httpClient;
     private static final XmlMapper MAPPER = new XmlMapper();
 
     public CbrExchangeRates getExchangeRates() {
+        String todayDate = LocalDate.now().format(DateTimeFormatter.ofPattern(DATE_PATTERN));
+        String url = String.format(cbrfUrlTemplate, todayDate);
         HttpGet request = new HttpGet(url);
 
         try (CloseableHttpResponse response = httpClient.execute(request)) {
@@ -37,7 +43,7 @@ public class CbrService {
 
         } catch (IOException e) {
             log.error("Невозможно получить данные с сайта ЦБ", e);
-             throw new CbrRequestException();
+            throw new CbrRequestException();
         }
     }
 }
