@@ -1,4 +1,4 @@
-package ru.ramazan.currencyconverter.data.model;
+package ru.ramazan.currencyconverter.data.model.output;
 
 import lombok.AllArgsConstructor;
 import ru.ramazan.currencyconverter.data.entity.Currency;
