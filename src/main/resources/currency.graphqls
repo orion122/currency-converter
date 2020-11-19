@@ -4,20 +4,28 @@ type Currency {
     numCode: String!
     charCode: String!
     nominal: Int!
-    updateDate: String! # fixme: type?
+    updateDate: String!
     rate: BigDecimal!
 }
 
 type ConversionStatistic {
-    fromCurrency: Currency!
-    toCurrency: Currency!
-    averageRate: Float!
-    sum: BigDecimal!
+    fromCurrency: Currency
+    toCurrency: Currency
+    averageRate: Float
+    sum: BigDecimal
+}
+
+type ConversionHistory {
+    fromCurrency: String
+    toCurrency: String
+    rate: BigDecimal
+    sum: BigDecimal
 }
 
 type Query {
-    currencies:[Currency]
-    currency(id: ID!):Currency
-    convert(fromId: ID!, toId: ID!, sum: BigDecimal!):BigDecimal!
-    conversionStatistics:[ConversionStatistic]
+    currencies: [Currency]
+    currency(id: ID!): Currency
+    convert(fromId: ID!, toId: ID!, sum: BigDecimal!): BigDecimal!
+    conversionStatistics: [ConversionStatistic]
+    conversionHistory(afterDate: String!): [ConversionHistory]
 }
