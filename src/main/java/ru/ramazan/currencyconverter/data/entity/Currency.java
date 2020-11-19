@@ -29,6 +29,6 @@ public class Currency {
     @Column(nullable = false)
     private LocalDate updateDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 9, scale = 5)
     private BigDecimal rate;
 }

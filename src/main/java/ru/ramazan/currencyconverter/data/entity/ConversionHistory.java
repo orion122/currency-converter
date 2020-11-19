@@ -22,10 +22,10 @@ public class ConversionHistory {
     @JoinColumn(name = "to_currency_id", nullable = false)
     private Currency toCurrency;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 9, scale = 5)
     private BigDecimal sum;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 9, scale = 5)
     private BigDecimal rate;
 
     @CreationTimestamp
