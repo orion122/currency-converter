@@ -1,6 +1,7 @@
 package ru.ramazan.currencyconverter.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ramazan.currencyconverter.data.entity.Currency;
@@ -34,21 +35,29 @@ public class CurrencyService {
 
     @Transactional
     public BigDecimal convert(String fromCurrencyId, String toCurrencyId, BigDecimal sum) {
-        Currency fromCurrency = currencyRepository.findById(fromCurrencyId)
-                .orElseThrow(() -> new CurrencyNotFoundException("Не найдена валюта с таким id", "fromCurrencyId"));
-
-        Currency toCurrency = currencyRepository.findById(toCurrencyId)
-                .orElseThrow(() -> new CurrencyNotFoundException("Не найдена валюта с таким id", "toCurrencyId"));
+        Currency fromCurrency = getCurrencyOrThrow(fromCurrencyId, "fromCurrencyId");
+        Currency toCurrency = getCurrencyOrThrow(toCurrencyId, "toCurrencyId");
 
         LocalDate today = LocalDate.now();
 
         if (!fromCurrency.getUpdateDate().equals(today) || !toCurrency.getUpdateDate().equals(today)) {
             updateOrCreateCurrencies();
+
+            fromCurrency = getCurrencyOrThrow(fromCurrencyId, "fromCurrencyId");
+            toCurrency = getCurrencyOrThrow(toCurrencyId, "toCurrencyId");
         }
 
         return conversionService.convert(fromCurrency, toCurrency, sum);
     }
 
+    private Currency getCurrencyOrThrow(String currencyId, String fieldName) {
+        return currencyRepository.findById(currencyId)
+                .orElseThrow(() -> new CurrencyNotFoundException("Не найдена валюта с таким id", fieldName));
+    }
+
+    /**
+     * Достаются курсы валют с сайта ЦБРФ и сохраняются в БД или обновляются, если уже существовали.
+     */
     public void updateOrCreateCurrencies() {
         CbrExchangeRates cbrExchangeRates = cbrService.getExchangeRates();
 
