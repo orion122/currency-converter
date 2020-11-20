@@ -138,3 +138,36 @@ http://localhost:8080/graphiql
       }
     }
     ```
+- история ковертаций:
+    - пример запроса (формат даты: дд-ММ-гггг):
+    ```graphql
+    {
+      conversionHistory(afterDate: "19-11-2020") {
+        fromCurrency
+        toCurrency
+        rate
+        sum
+      }
+    }
+    ```
+  - пример овтета:
+    ```json
+    {
+    "data": {
+      "conversionHistory": [
+        {
+          "fromCurrency": "Азербайджанский манат",
+          "toCurrency": "Армянских драмов",
+          "rate": 292.67001,
+          "sum": 1323
+        },
+        {
+          "fromCurrency": "Австралийский доллар",
+          "toCurrency": "Армянских драмов",
+          "rate": 361.89607,
+          "sum": 1
+        }
+      ]
+    }
+    }
+    ```
